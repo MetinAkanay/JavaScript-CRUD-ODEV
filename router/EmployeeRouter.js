@@ -127,6 +127,20 @@ EmployeeRouter.get("/getAll", TokenControl,async(req,res)=>{
     }
 })
 
+EmployeeRouter.delete("/delete/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const deletedEmployee = await employee.findByIdAndDelete(id)
+        if (!deletedEmployee) {
+            return res.status(404).send({ status: false, message: "Employee not found" })
+        }
+        res.status(200).send({ status: true, message: "Employee deleted successfully" })
+    } catch (error) {
+        res.status(500).send({ status: false, message: error.message })
+    }
+})
+
+
 
 
 module.exports = EmployeeRouter
